@@ -1,8 +1,14 @@
+const { getDefaultConfig } = require("expo/metro-config");
+const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 const { withNativeWind } = require("nativewind/metro");
-const {
-  getSentryExpoConfig
-} = require("@sentry/react-native/metro");
 
-const config = getSentryExpoConfig(__dirname);
+// Start with Expo default config
+let config = getDefaultConfig(__dirname);
 
-module.exports = withNativeWind(config, { input: "./app/globals.css" });
+// Wrap with Sentry config
+config = getSentryExpoConfig(__dirname, config);
+
+// Wrap with NativeWind config
+config = withNativeWind(config, { input: "./app/globals.css" });
+
+module.exports = config;

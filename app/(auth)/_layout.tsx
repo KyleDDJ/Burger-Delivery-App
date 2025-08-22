@@ -10,10 +10,10 @@ import {
   View,
 } from "react-native";
 
-export default function _layout() {
+export default function AuthLayout() {
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView
         className="bg-white h-full"

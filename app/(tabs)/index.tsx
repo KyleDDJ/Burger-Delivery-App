@@ -1,5 +1,3 @@
-import CartButton from "@/components/CartButton";
-import { images, offers } from "@/constants";
 import cn from "clsx";
 import React, { Fragment } from "react";
 import {
@@ -12,13 +10,16 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import CartButton from "@/components/CartButton";
+import { images, offers } from "@/constants";
+
 export default function Index() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
         data={offers}
         renderItem={({ item, index }) => {
-          const isEven: boolean = index % 2 == 0;
+          const isEven: boolean = index % 2 === 0;
           return (
             <View>
               <Pressable
@@ -27,15 +28,15 @@ export default function Index() {
                   isEven ? "flex-row-reverse" : "flex-row"
                 )}
                 style={{ backgroundColor: item.color }}
-                android_ripple={{ color: "#fffff22" }}
+                android_ripple={{ color: "#ffffff22" }}
               >
                 {({ pressed }) => (
                   <Fragment>
-                    <View className={"h-full w-1/2"}>
+                    <View className="h-full w-1/2">
                       <Image
                         source={item.image}
-                        className={"size-full"}
-                        resizeMode={"contain"}
+                        className="size-full"
+                        resizeMode="contain"
                       />
                     </View>
 
@@ -52,7 +53,7 @@ export default function Index() {
                         source={images.arrowRight}
                         className="size-10"
                         resizeMode="contain"
-                        tintColor="ffffff"
+                        style={{ tintColor: "#ffffff" }}
                       />
                     </View>
                   </Fragment>

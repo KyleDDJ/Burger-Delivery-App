@@ -1,6 +1,7 @@
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
 import { signIn } from "@/lib/appwrite";
+import * as Sentry from "@sentry/react-native";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, View } from "react-native";
@@ -25,6 +26,7 @@ const SignIn = () => {
       router.push("/");
     } catch (error: any) {
       Alert.alert("Error", error.message);
+      Sentry.captureEvent(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -53,7 +55,7 @@ const SignIn = () => {
         <Text className="base-regular text-gray-100">
           Don't have an account?
         </Text>
-        <Link href="/(auth)/signUp" className="base-bold text-primary">
+        <Link href="/signUp" className="base-bold text-primary">
           Sign Up
         </Link>
       </View>
