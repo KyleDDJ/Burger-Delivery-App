@@ -1,17 +1,17 @@
-import { CreateUserParams, SignInParams } from "@/type";
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import { CreateUserParams, GetMenuParams, SignInParams } from "@/type";
+import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
 
 export const appwriteConfig = {
     platform: "com.order.burgerordering",
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
-    databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
-    bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID!,
-    userCollectionId: process.env.EXPO_PUBLIC_APPWRITE_USER_COLLECTION_ID!,
-    categoriesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID!,
-    menuCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_COLLECTION_ID!,
-    customizationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CUSTOMIZATIONS_COLLECTION_ID!,
-    menuCustomizationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_CUSTOMIZATIONS_COLLECTION_ID!,
+    databaseId: '68a6c7980008bea3b0c4',
+    bucketId: '68a80165002c09b3af71',
+    userCollectionId: '68a6c7d9000725a9b148',
+    categoriesCollectionId: '68a7e890000e5a289b43',
+    customizationsCollectionId:'68a7eb01001b319bcca9',
+    menuCollectionId: '68a7e968000a4d176fd1',
+    menuCustomizationsCollectionId: '68a7fc4600191636df06',
 
 }
 
@@ -24,6 +24,7 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
 export const createUser = async ({ email, password, name }: CreateUserParams) => {
@@ -81,5 +82,34 @@ export const getCurrentUser = async () => {
         console.log(e)
         throw new Error(e as string)
         
+    }
+}
+
+export const getMenu = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = [];
+
+    if(category) queries.push(Query.equal('categories', category));
+    if(query) queries.push(Query.search('name', query));
+
+    const menus = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.menuCollectionId,
+        queries,
+    )
+    return menus.documents
+  } catch (e) {
+    throw new Error(e as string);
+  }
+};
+
+export const getCategories = async () => {
+    try {
+        const categories = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.categoriesCollectionId,
+        )
+    } catch (e) {
+        throw new Error(e as string);
     }
 }
