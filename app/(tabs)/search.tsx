@@ -2,7 +2,9 @@ import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import CartButton from "@/components/CartButton";
+import Filter from "@/components/Filter";
 import MenuCard from "@/components/MenuCard";
+import SearchBar from "@/components/SearchBar";
 import { getCategories, getMenu } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
 import { MenuItem } from "@/type";
@@ -48,7 +50,7 @@ const Search = () => {
           );
         }}
         ListHeaderComponent={() => (
-          <View className="my-5">
+          <View className="my-5 gap-5">
             <View className="flex-between flex-row w-full">
               <View className="flex-start">
                 <Text className="sm-bold uppercase text-primary">Search</Text>
@@ -61,9 +63,9 @@ const Search = () => {
               <CartButton />
             </View>
 
-            <Text className="mt-5">Search Input </Text>
+            <SearchBar />
 
-            <Text className="mt-5">Filter</Text>
+            <Filter categories={categories!} />
           </View>
         )}
         ListEmptyComponent={() => !loading && <Text>No Result</Text>}
